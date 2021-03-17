@@ -63,4 +63,38 @@ const stringLib = () => {
     function generateUpperAndLowerCase() {
         return generateOnlyUpperCase().concat(generateOnlyLowerCase());
     }
+
+    function isPalindrome(word) {
+        if (word.length < 2) return false;
+        let start = 0;
+        let end = word.length-1;
+
+        while (end > start) {
+            if (word[start] != word[end]) return false;
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    function randomWord(length) {
+        const charList = generateUpperAndLowerCase();
+        let word = "";
+        for (i=0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charList.length);
+            word+charList[randomIndex];
+        }
+
+        return word;
+    }
+
+    function randomWordWithCharList(length, charList) {
+        let word = "";
+        for (i=0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * charList.length);
+            word+charList[randomIndex];
+        }
+
+        return word;
+    }
 }
