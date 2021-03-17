@@ -112,6 +112,12 @@ const numberLib = () => {
             return;
         } 
         let alist = []
+        // step1: create an array of numbers from range
+        // step2: create an empty array for holding random numbers
+        // step3: create a random index number within range of step1
+        // step4: push the number from step1's array with the random index into step2's list
+        // step5: remove the number from step1's array
+        // step6: repeat the process from step3 until desired amount
         if (!allowDuplicates) {
             // create a number list within range of start to end
             let temp = numberList(start, end);
@@ -129,5 +135,24 @@ const numberLib = () => {
         }
 
         return alist;
+    }
+
+    function isPrime(num) {
+        // if num is less than 2, it's not prime
+        if (num < 2) { return false }
+        // if num is 2, return it's prime
+        if (num === 2) { return true }
+        // test out all the numbers below the number's half
+        for (i=2; i<=num/2; i++) {
+            if (num%i === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    function generatePrimeNumbers(from, count) {
+
+        
     }
 }
