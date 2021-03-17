@@ -10,7 +10,7 @@ const numberLib = () => {
 
     function minus(a, b) {
         if (utilities.checkNumber([a, b])) {
-            return a-b;
+            return b-a;
         }
         return;
     }
@@ -24,7 +24,11 @@ const numberLib = () => {
 
     function devide(a, b) {
         if (utilities.checkNumber([a, b])) {
-            return a/b;
+            if (b != 0) {
+                return a/b;
+            } else {
+                alert("the answer can not be determined");
+            }
         }
         return;
     }
@@ -42,7 +46,7 @@ const numberLib = () => {
     }
 
     function decrement(a, b) {
-        return minus(a, b);
+        return minus(b, a);
     }
 
     function numberList(start, end) {
@@ -55,40 +59,31 @@ const numberLib = () => {
     function numberListWithSkip(start, count, skipEvery) {
         if (utilities.checkNumber([start, count, skipEvery])) {
             let aList = [];
-            let _skipCount = 0;
-            
-            for (i = start; i <= (start+count) ; i++) {
-              if (_skipCount == skipEvery) {
+            let index = 0;
+            for (i = start; i <= (start+count); i++) {
+              if (i%skipEvery === 0 && index > 0) {
                 aList.push(i);
-                _skipCount = 0;
               }
-              _skipCount++;
-              if (_skipCount > skipEvery) {
-                _skipCount = 0;
-              }
+              index++;
             }
-            return aList;
+            return aList;         
         }
         return;
     }
 
     function createRandomNumber(min, max) {
         if (utilities.checkNumber([min, max])) {
-            return Math.random()*(max-min)+min;
+            return Math.floor(Math.random()*(max-min)+min);
         }
         return;
     }
 
     function randomizeNumberList(start, count, isRandom) {
-        if (utilities.checkNumber([start, count])) {
+        if (utilities.checkNumber([start, count]) && typeof isRandom === "boolean") {
             let aList = [];
 
             for (num=start; num<(start+count); num++) {
-                if (isRandom) {
-                    aList.push(createRandomNumber(start, (start+count)));
-                } else {
-                    aList.push(num);
-                }
+                aList.push(isRandom ? createRandomNumber(start, (start+count)) : num);
             }
             return aList;
         }
@@ -111,16 +106,26 @@ const numberLib = () => {
     }
 
     function randomizeNumberListB(start, end, count, allowDuplicates) {
-        if (!utilities.checkNumber([start, end, count])) { return }
+        if (!utilities.checkNumber([start, end, count] && typeof allowDuplicates === "boolean")) { return }
         if (!allowDuplicates && count>(end-start)) {
             alert("unable to create logic result");
             return;
         } 
         let alist = []
-        if (allowDuplicates) {
-            alist = Array(count).fill().push(createRandomNumber(start, end));
+        if (!allowDuplicates) {
+            // create a number list within range of start to end
+            let temp = numberList(start, end);
+            // repeat the process until count is reached.
+            for (i=0; i<count; i++) {
+                // create random a index
+                const index = createRandomNumber(0, temp.length-1);
+                // add the number within temp list with the index
+                alist.push(temp[index]);
+                // remove the number from the temp arry
+                temp.splice(index, 1);
+            }
         } else {
-            // I am still thinking how to do it.
+            alist = Array(count).fill().push(createRandomNumber(start, end));
         }
 
         return alist;
