@@ -131,7 +131,7 @@ const numberLib = () => {
                 temp.splice(index, 1);
             }
         } else {
-            alist = Array(count).fill().push(createRandomNumber(start, end));
+            alist = randomNumberList(start, count);
         }
 
         return alist;
@@ -143,7 +143,9 @@ const numberLib = () => {
         // if num is 2, return it's prime
         if (num === 2) { return true }
         // test out all the numbers below the number's half
-        for (i=2; i<=num/2; i++) {
+        // if the num doesn't have reminder, thatn it's not a prime number
+        // anythng beyond half is not interger, since 2 is the smallest number that can be devided equally
+        for (i=2; i<=Math.floor(num/2); i++) {
             if (num%i === 0) {
                 return false;
             }
